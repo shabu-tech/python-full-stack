@@ -1,0 +1,100 @@
+#simple calculater
+#feature
+#store the value 
+#uses for calculation 
+#history as been stored 
+
+def add(a, b):
+    return a + b
+
+def subtract(a, b):
+    return a - b
+
+def multiply(a, b):
+    return a * b
+
+def divide(a, b):
+    if b == 0:
+        return None
+    return a / b
+
+
+def get_number_upto_10_digits(msg):
+    num = input(msg)
+    if num.isdigit() and len(num) <= 10:
+        return int(num)
+    else:
+        print("Error: Enter numbers only (up to 10 digits)")
+        return None
+
+
+history = []   
+
+
+while True:
+    print("\nCalculator Menu")
+    print("1. Add")
+    print("2. Subtract")
+    print("3. Multiply")
+    print("4. Divide")
+    print("5. View History")
+    print("6. Exit")
+
+    choice = input("Choose an option (1-6): ")
+
+    if choice == "6":
+        print("Calculator closed")
+        break
+
+    if choice == "5":
+        print("\nCalculation History:")
+        if not history:
+            print("No history available")
+        else:
+            for item in history:
+                print(item)
+        continue
+
+    if choice in ["1", "2", "3", "4"]:
+
+        num1 = get_number_upto_10_digits("Enter first number: ")
+        if num1 is None:
+            continue
+
+        num2 = get_number_upto_10_digits("Enter second number: ")
+        if num2 is None:
+            continue
+
+        if choice == "1":
+            result = add(num1, num2)
+            op = "+"
+
+        elif choice == "2":
+            result = subtract(num1, num2)
+            op = "-"
+
+        elif choice == "3":
+            result = multiply(num1, num2)
+            op = "*"
+
+        elif choice == "4":
+            result = divide(num1, num2)
+            op = "/"
+            if result is None:
+                print("Error: Cannot divide by zero")
+                continue
+
+        expression = f"{num1} {op} {num2} = {result}"
+
+        # display result
+        print("Result:", expression)
+
+        # store in history
+        history.append(expression)
+
+        # save to file
+        with open("history.txt", "a") as file:
+            file.write(expression + "\n")
+
+    else:
+        print("Enter Valid option . Try again.")
